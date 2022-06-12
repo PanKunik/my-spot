@@ -1,0 +1,7 @@
+@url=http://localhost:5000
+PUT {{url}}/reservations/1
+Content-Type: application/json
+
+{
+    "licencePlate": "XYZZ"
+}
