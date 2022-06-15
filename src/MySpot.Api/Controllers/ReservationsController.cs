@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using MySpot.Api.Models;
+using MySpot.Api.Commands;
+using MySpot.Api.DTO;
 using MySpot.Api.Services;
 
 namespace MySpot.Api.Controllers;
@@ -11,13 +12,13 @@ public class ReservationsController : ControllerBase
     private readonly ReservationsService _service = new ReservationsService();
 
     [HttpGet]
-    public ActionResult<IEnumerable<Reservation>> Get()
+    public ActionResult<IEnumerable<ReservationDTO>> Get()
     {
-        return Ok(_service.GetAll());
+        return Ok(_service.GetWeekly());
     }
 
-    [HttpGet("{id:int}")]
-    public ActionResult<Reservation> Get(int id)
+    [HttpGet("{id:guid}")]
+    public ActionResult<ReservationDTO> Get(Guid id)
     {
         var reservation = _service.Get(id);
 
@@ -30,9 +31,9 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post(Reservation reservation)
+    public IActionResult Post(CreateReservation command)
     {
-        var id = _service.Create(reservation);
+        var id = _service.Create(command with { ReservationId = Guid.NewGuid() });
 
         if(id is null)
         {
@@ -42,11 +43,10 @@ public class ReservationsController : ControllerBase
         return CreatedAtAction(nameof(Get), new { Id = id }, null);
     }
 
-    [HttpPut("{id:int}")]
-    public IActionResult Put(int id, Reservation reservation)
+    [HttpPut("{id:guid}")]
+    public IActionResult Put(Guid id, ChangeReservationLicencePlate command)
     {
-        reservation.Id = id;
-        var succedded = _service.Update(reservation);
+        var succedded = _service.Update(command with { ReservationId = id });
 
         if(!succedded)
         {
@@ -56,10 +56,10 @@ public class ReservationsController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    [HttpDelete("{id:guid}")]
+    public IActionResult Delete(Guid id)
     {
-        var succedded = _service.Delete(id);
+        var succedded = _service.Delete(new DeleteReservation(id));
 
         if(!succedded)
         {
