@@ -1,13 +1,16 @@
+using MySpot.Api.Exceptions;
+using MySpot.Api.ValueObjects;
+
 namespace MySpot.Api.Entities;
 
 public class Reservation
 {
-    public Guid Id { get; }
-    public string EmployeeName { get; private set; } = null!;
-    public string LicencePlate { get; private set; } = null!;
-    public DateTime Date { get; private set; }
+    public ReservationId Id { get; }
+    public EmployeeName EmployeeName { get; private set; } = null!;
+    public LicencePlate LicencePlate { get; private set; } = null!;
+    public Date Date { get; private set; }
 
-    public Reservation(Guid id, string employeeName, string licencePlate, DateTime date)
+    public Reservation(ReservationId id, EmployeeName employeeName, LicencePlate licencePlate, Date date)
     {
         Id = id;
         EmployeeName = employeeName;
@@ -15,6 +18,6 @@ public class Reservation
         Date = date;
     }
 
-    public void ChangeLicencePlate(string licencePlate)
+    public void ChangeLicencePlate(LicencePlate licencePlate)
         => LicencePlate = licencePlate;
 }

@@ -4,8 +4,8 @@ POST {{url}}/reservations
 Content-Type: application/json
 
 {
-    "employeeName": "Anic",
-    "licencePlate": "WW 092YX",
-    "parkingSpotName": "P1",
-    "date": "2022-01-02T00:00:00Z"
+    "parkingSpotId": "00000000-0000-0000-0000-000000000001",
+    "date": "2022-01-02",
+    "employeeName": "Anim Macin",
+    "licencePlate": "XYZ"
 }
