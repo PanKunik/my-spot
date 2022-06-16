@@ -1,4 +1,5 @@
 using MySpot.Api.Exceptions;
+using MySpot.Api.Services;
 
 namespace MySpot.Api.Entities;
 
@@ -20,10 +21,10 @@ public class WeeklyParkingSpot
         Name = name;
     }
 
-    public void AddReservation(Reservation reservation)
+    public void AddReservation(Reservation reservation, DateTime now)
     {
         var isInvalidDate = reservation.Date.Date < From ||
-                            reservation.Date.Date < DateTime.UtcNow.Date ||
+                            reservation.Date.Date < now ||
                             reservation.Date.Date > To;
 
         if(isInvalidDate)
