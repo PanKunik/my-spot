@@ -1,5 +1,4 @@
 using MySpot.Api.Exceptions;
-using MySpot.Api.Services;
 using MySpot.Api.ValueObjects;
 
 namespace MySpot.Api.Entities;

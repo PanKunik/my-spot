@@ -8,7 +8,7 @@ public record LicencePlate
 
     public LicencePlate(string value)
     {
-        if(!string.IsNullOrWhiteSpace(value))
+        if(string.IsNullOrWhiteSpace(value))
         {
             throw new InvalidLicencePlateException(value);
         }
