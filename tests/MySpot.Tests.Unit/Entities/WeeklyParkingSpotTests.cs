@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MySpot.Api.Entities;
 using MySpot.Api.Exceptions;
 using MySpot.Api.ValueObjects;
@@ -56,6 +57,37 @@ public class WeeklyParkingSpotTests
         // Assert
         Assert.Single<Reservation>(_weeklyParkingSpot.Reservations);
         Assert.Contains(reservation, _weeklyParkingSpot.Reservations);
+    }
+
+    [Fact]
+    public void GivenValidReservationId_RemoveReservation_ShouldPass()
+    {
+        // Arrange
+        var reservationId = new ReservationId(Guid.NewGuid());
+        var reservation = new Reservation(reservationId, "Joe Doe", "ABC 1234", new Date(_now.AddDays(1)));
+        _weeklyParkingSpot.AddReservation(reservation, new Date(_now));
+
+        // Act
+        _weeklyParkingSpot.RemoveReservation(reservationId);
+
+        // Assert
+        Assert.Empty(_weeklyParkingSpot.Reservations);
+    }
+
+    [Fact]
+    public void GivenValidReservationIdThanNotExists_RemoveReservation_ShouldPassAdnDoNothing()
+    {
+        // Arrange
+        var reservationId = new ReservationId(Guid.NewGuid());
+        var newNotExisitngReservationId = new ReservationId(Guid.NewGuid());
+        var reservation = new Reservation(reservationId, "Joe Doe", "ABC 1234", new Date(_now.AddDays(1)));
+        _weeklyParkingSpot.AddReservation(reservation, new Date(_now));
+
+        // Act
+        _weeklyParkingSpot.RemoveReservation(newNotExisitngReservationId);
+
+        // Assert
+        Assert.Single(_weeklyParkingSpot.Reservations);
     }
 
     #region ARRANGE
