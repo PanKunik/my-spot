@@ -15,7 +15,7 @@ public class ReservationsServiceTests
     {
         // Arrange
         var command = new CreateReservation(Guid.Parse("00000000-0000-0000-0000-000000000001"),
-            Guid.NewGuid(), "Joe Doe", "XYZ1234", DateTime.UtcNow.AddDays(1));
+            Guid.NewGuid(), "Joe Doe", "XYZ1234", _clock.Current().AddDays(1));
 
         // Act
         var reservationId = _reservationsService.Create(command);
