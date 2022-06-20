@@ -2,23 +2,25 @@ using MySpot.Api.Commands;
 using MySpot.Api.DTO;
 using MySpot.Api.Entities;
 using MySpot.Api.Exceptions;
+using MySpot.Api.Repositories;
 using MySpot.Api.ValueObjects;
 
 namespace MySpot.Api.Services;
 
-public class ReservationsService
+public class ReservationsService : IReservationsService
 {
     private readonly IClock _clock;
-    private readonly IEnumerable<WeeklyParkingSpot> _weeklyParkingSpots;
+    private readonly IWeeklyParkingSpotRepository _weeklyParkingSpotRepository;
 
-    public ReservationsService(IClock clock, IEnumerable<WeeklyParkingSpot> weeklyParkingSpots)
+    public ReservationsService(IClock clock, IWeeklyParkingSpotRepository weeklyParkingSpotRepository)
     {
         _clock = clock;
-        _weeklyParkingSpots = weeklyParkingSpots;
+        _weeklyParkingSpotRepository = weeklyParkingSpotRepository;
     }
 
     public IEnumerable<ReservationDTO> GetWeekly()
-        => _weeklyParkingSpots
+        => _weeklyParkingSpotRepository
+            .GetAll()
             .SelectMany(w => w.Reservations)
             .Select(x => new ReservationDTO()
             {
@@ -37,8 +39,7 @@ public class ReservationsService
         {
             var(spotId, reservationId, employeeName, licencePlate, date) = command;
 
-            var parkingSpotId = new ParkingSpotId(spotId);
-            var weeklyParkingSpot = _weeklyParkingSpots.SingleOrDefault(w => w.Id == parkingSpotId);
+            var weeklyParkingSpot = _weeklyParkingSpotRepository.Get(spotId);
             
             if(weeklyParkingSpot is null)
             {
@@ -77,6 +78,8 @@ public class ReservationsService
             }
 
             reservation.ChangeLicencePlate(command.LicencePlate);
+            _weeklyParkingSpotRepository.Update(weeklyParkingSpot);
+
             return true;
         }
         catch(CustomException ex)
@@ -97,6 +100,8 @@ public class ReservationsService
             }
 
             weeklyParkingSpot.RemoveReservation(command.ReservationId);
+            _weeklyParkingSpotRepository.Update(weeklyParkingSpot);
+            
             return true;
         }
         catch(CustomException ex)
@@ -106,7 +111,8 @@ public class ReservationsService
     }
 
     private WeeklyParkingSpot GetWeeklyParkingSpotByReservation(ReservationId id)
-        => _weeklyParkingSpots
+        => _weeklyParkingSpotRepository
+            .GetAll()
             .SingleOrDefault(x => x.Reservations.Any(r => r.Id == id));
 
     private DateTime CurrentDate() => _clock.Current();
