@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\MySpot.Infrastructure\MySpot.Infrastructure.csproj" />
+    <ProjectReference Include="..\MySpot.Application\MySpot.Application.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

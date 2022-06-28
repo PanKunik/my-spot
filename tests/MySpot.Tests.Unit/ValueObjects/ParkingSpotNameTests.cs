@@ -1,5 +1,5 @@
-using MySpot.Api.Exceptions;
-using MySpot.Api.ValueObjects;
+using MySpot.Core.Exceptions;
+using MySpot.Core.ValueObjects;
 using Xunit;
 
 namespace MySpot.Tests.Unit.ValueObjects;
@@ -14,7 +14,7 @@ public class ParkingSpotNameTests
 
         // Assert
         Assert.NotNull(exception);
-        Assert.IsType<InvalidParkingSpotNameException>(exception);
+         Assert.IsType<InvalidParkingSpotNameException>(exception);
     }
 
     [Fact]

@@ -1,5 +1,5 @@
-using MySpot.Api.Services;
-using MySpot.Api.ValueObjects;
+using MySpot.Application.Services;
+using MySpot.Core.ValueObjects;
 using MySpot.Tests.Unit.Shaerd;
 using Xunit;
 
@@ -25,7 +25,7 @@ public class DateTests
     #region Arrange
 
     private readonly IClock _clock;
-    
+
     public DateTests()
     {
         _clock = new TestClock();

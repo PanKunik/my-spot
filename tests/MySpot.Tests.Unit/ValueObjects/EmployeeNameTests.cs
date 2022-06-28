@@ -1,5 +1,5 @@
-using MySpot.Api.Exceptions;
-using MySpot.Api.ValueObjects;
+using MySpot.Core.Exceptions;
+using MySpot.Core.ValueObjects;
 using Xunit;
 
 namespace MySpot.Tests.Unit.ValueObjects;
@@ -12,7 +12,7 @@ public class EmployeeNameTests
     {
         // Act
         var exception = Record.Exception(() => new EmployeeName(employeeName));
-        
+
         // Assert
         Assert.NotNull(exception);
         Assert.IsType<InvalidEmployeeNameException>(exception);
@@ -26,7 +26,7 @@ public class EmployeeNameTests
     {
         // Act
         var uat = new EmployeeName(employeeName);
-        
+
         // Assert
         Assert.NotNull(uat);
         Assert.Equal(uat.Value, employeeName);

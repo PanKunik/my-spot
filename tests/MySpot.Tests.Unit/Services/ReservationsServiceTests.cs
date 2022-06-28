@@ -1,7 +1,8 @@
 using System;
-using MySpot.Api.Commands;
-using MySpot.Api.Repositories;
-using MySpot.Api.Services;
+using MySpot.Application.Commands;
+using MySpot.Application.Services;
+using MySpot.Core.Repositories;
+using MySpot.Infrastructure.Repositories;
 using MySpot.Tests.Unit.Shaerd;
 using Xunit;
 
@@ -64,7 +65,7 @@ public class ReservationsServiceTests
         _clock = new TestClock();
         _weeklyParkingSpotRepository = new InMemoryWeeklyParkingSpot(_clock);
         _reservationsService = new ReservationsService(_clock, _weeklyParkingSpotRepository);
-    }    
+    }
 
     #endregion
 }

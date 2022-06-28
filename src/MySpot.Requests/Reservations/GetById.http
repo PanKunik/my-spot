@@ -1,2 +1,2 @@
 @url=http://localhost:5000
-GET {{url}}/reservations/1
+GET {{url}}/reservations/fb68842d-dc44-4112-a05e-3d970f5386c4

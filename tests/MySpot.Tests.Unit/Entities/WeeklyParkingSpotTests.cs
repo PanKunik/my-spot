@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
-using MySpot.Api.Entities;
-using MySpot.Api.Exceptions;
-using MySpot.Api.ValueObjects;
+using MySpot.Core.Entities;
+using MySpot.Core.Exceptions;
+using MySpot.Core.ValueObjects;
 using Xunit;
 
 namespace MySpot.Tests.Unit.Entities;
@@ -19,7 +18,7 @@ public class WeeklyParkingSpotTests
 
         // Arrange
         var reservation = new Reservation(Guid.NewGuid(), "Joe Doe", "XYZ123", new Date(invalidDate));
-        
+
         // Act
         var exception = Record.Exception(() => _weeklyParkingSpot.AddReservation(reservation, _now));
 
