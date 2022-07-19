@@ -8,7 +8,7 @@ namespace MySpot.Api.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class ReservationsController : ControllerBase
-{    
+{
     private readonly IReservationsService _reservationsService;
 
     public ReservationsController(IReservationsService reservationsService)
@@ -17,15 +17,15 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<ReservationDTO>> Get()
+    public async Task<ActionResult<IEnumerable<ReservationDTO>>> Get()
     {
-        return Ok(_reservationsService.GetWeekly());
+        return Ok(await _reservationsService.GetWeeklyAsync());
     }
 
     [HttpGet("{id:guid}")]
-    public ActionResult<ReservationDTO> Get(Guid id)
+    public async Task<ActionResult<ReservationDTO>> Get(Guid id)
     {
-        var reservation = _reservationsService.Get(id);
+        var reservation = await _reservationsService.GetAsync(id);
 
         if(reservation is null)
         {
@@ -36,9 +36,9 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post(CreateReservation command)
+    public async Task<IActionResult> Post(CreateReservation command)
     {
-        var id = _reservationsService.Create(command with { ReservationId = Guid.NewGuid() });
+        var id = await _reservationsService.CreateAsync(command with { ReservationId = Guid.NewGuid() });
 
         if(id is null)
         {
@@ -49,9 +49,9 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public IActionResult Put(Guid id, ChangeReservationLicencePlate command)
+    public async Task<IActionResult> Put(Guid id, ChangeReservationLicencePlate command)
     {
-        var succedded = _reservationsService.Update(command with { ReservationId = id });
+        var succedded = await _reservationsService.UpdateAsync(command with { ReservationId = id });
 
         if(!succedded)
         {
@@ -62,9 +62,9 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    public IActionResult Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var succedded = _reservationsService.Delete(new DeleteReservation(id));
+        var succedded = await _reservationsService.DeleteAsync(new DeleteReservation(id));
 
         if(!succedded)
         {

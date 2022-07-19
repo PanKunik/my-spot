@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using MySpot.Application.Commands;
 using MySpot.Application.Services;
 using MySpot.Core.Repositories;
@@ -11,14 +12,14 @@ namespace MySpot.Tests.Unit.Services;
 public class ReservationsServiceTests
 {
     [Fact]
-    public void GivenValidCommand_CreateReservation_ShouldAddReservation()
+    public async Task GivenValidCommand_CreateReservation_ShouldAddReservation()
     {
         // Arrange
         var command = new CreateReservation(Guid.Parse("00000000-0000-0000-0000-000000000001"),
             Guid.NewGuid(), "Joe Doe", "XYZ1234", _clock.Current().AddDays(1));
 
         // Act
-        var reservationId = _reservationsService.Create(command);
+        var reservationId = await _reservationsService.CreateAsync(command);
 
         // Assert
         Assert.NotNull(reservationId);
@@ -26,29 +27,29 @@ public class ReservationsServiceTests
     }
 
     [Fact]
-    public void GivenInvalidParkingSpotId_CreateReservation_ShouldFail()
+    public async Task GivenInvalidParkingSpotId_CreateReservation_ShouldFail()
     {
         // Arrange
         var command = new CreateReservation(Guid.Parse("00000000-0000-0000-0000-000000000010"),
             Guid.NewGuid(), "Joe Doe", "XYZ1234", DateTime.UtcNow.AddDays(1));
 
         // Act
-        var reservationId = _reservationsService.Create(command);
+        var reservationId = await _reservationsService.CreateAsync(command);
 
         // Assert
         Assert.Null(reservationId);
     }
 
     [Fact]
-    public void GivenReservationForAlreadyTakenDate_CreateReservation_ShouldFail()
+    public async Task GivenReservationForAlreadyTakenDate_CreateReservation_ShouldFail()
     {
         // Arrange
         var command = new CreateReservation(Guid.Parse("00000000-0000-0000-0000-000000000005"),
             Guid.NewGuid(), "Joe Doe", "XYZ 1234", DateTime.UtcNow.AddDays(1));
-        _reservationsService.Create(command);
+        await _reservationsService.CreateAsync(command);
 
         // Act
-        var reservationId = _reservationsService.Create(command);
+        var reservationId = await _reservationsService.CreateAsync(command);
 
         // Assert
         Assert.Null(reservationId);
