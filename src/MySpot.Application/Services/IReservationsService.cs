@@ -7,7 +7,7 @@ public interface IReservationsService
 {
     Task<IEnumerable<ReservationDTO>> GetWeeklyAsync();
     Task<ReservationDTO> GetAsync(Guid id);
-    Task<Guid?> CreateAsync(CreateReservation command);
-    Task<bool> UpdateAsync(ChangeReservationLicencePlate command);
-    Task<bool> DeleteAsync(DeleteReservation command);
+    Task CreateAsync(CreateReservation command);
+    Task UpdateAsync(ChangeReservationLicencePlate command);
+    Task DeleteAsync(DeleteReservation command);
 }

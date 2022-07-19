@@ -19,11 +19,7 @@ public class ReservationsServiceTests
             Guid.NewGuid(), "Joe Doe", "XYZ1234", _clock.Current().AddDays(1));
 
         // Act
-        var reservationId = await _reservationsService.CreateAsync(command);
-
-        // Assert
-        Assert.NotNull(reservationId);
-        Assert.Equal(reservationId, command.ReservationId);
+        await _reservationsService.CreateAsync(command);
     }
 
     [Fact]
