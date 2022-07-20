@@ -1,4 +1,4 @@
-using MySpot.Application.Services;
+using MySpot.Core.Abstractions;
 using MySpot.Core.Entities;
 using MySpot.Core.Repositories;
 using MySpot.Core.ValueObjects;

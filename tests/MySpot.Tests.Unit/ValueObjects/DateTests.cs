@@ -1,4 +1,4 @@
-using MySpot.Application.Services;
+using MySpot.Core.Abstractions;
 using MySpot.Core.ValueObjects;
 using MySpot.Tests.Unit.Shaerd;
 using Xunit;
