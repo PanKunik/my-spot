@@ -1,11 +1,20 @@
 @url=http://localhost:5000
 
-POST {{url}}/reservations
+POST {{url}}/reservations/vehicle
 Content-Type: application/json
 
 {
-    "parkingSpotId": "00000000-0000-0000-0000-000000000005",
-    "date": "2022-07-18",
+    "parkingSpotId": "00000000-0000-0000-0000-000000000001",
+    "date": "2022-08-04",
     "employeeName": "Joe John",
     "licencePlate": "XYZ 1234"
+}
+
+###
+POST {{url}}/reservations/cleaning
+Content-Type: application/json
+
+{
+    "parkingSpotId": "00000000-0000-0000-0000-000000000001",
+    "date": "2022-08-04"
 }

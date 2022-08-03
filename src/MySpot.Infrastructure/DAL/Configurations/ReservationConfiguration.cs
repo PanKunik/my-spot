@@ -13,16 +13,13 @@ internal sealed class ReservationConfiguration : IEntityTypeConfiguration<Reserv
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new ReservationId(x));
 
-        builder.Property(x => x.EmployeeName)
-            .HasConversion(x => x.Value, x => new EmployeeName(x))
-            .IsRequired();
-
-        builder.Property(x => x.LicencePlate)
-            .HasConversion(x => x.Value, x => new LicencePlate(x))
-            .IsRequired();
-
         builder.Property(x => x.Date)
             .HasConversion(x => x.Value, x => new Date(x))
             .IsRequired();
+
+        builder
+            .HasDiscriminator<string>("Type")
+            .HasValue<CleaningReservation>(nameof(CleaningReservation))
+            .HasValue<VehicleReservation>(nameof(VehicleReservation));
     }
 }

@@ -35,17 +35,24 @@ public class ReservationsController : ControllerBase
         return reservation;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Post(CreateReservation command)
+    [HttpPost("vehicle")]
+    public async Task<IActionResult> Post(ReserveParkingSpotForVehicle command)
     {
-        await _reservationsService.CreateAsync(command with { ReservationId = Guid.NewGuid() });
+        await _reservationsService.ReserveForVehicleAsync(command with { ReservationId = Guid.NewGuid() });
         return CreatedAtAction(nameof(Get), new { Id = command.ReservationId }, default);
+    }
+
+    [HttpPost("cleaning")]
+    public async Task<IActionResult> Post(ReserveParkingSpotForCleaning command)
+    {
+        await _reservationsService.ReserveForCleaningAsync(command);
+        return NoContent();
     }
 
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Put(Guid id, ChangeReservationLicencePlate command)
     {
-        await _reservationsService.UpdateAsync(command with { ReservationId = id });
+        await _reservationsService.ChangeReservationLicencePlateAsync(command with { ReservationId = id });
         return NoContent();
     }
 

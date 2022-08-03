@@ -2,21 +2,14 @@ using MySpot.Core.ValueObjects;
 
 namespace MySpot.Core.Entities;
 
-public class Reservation
+public abstract class Reservation
 {
     public ReservationId Id { get; }
-    public EmployeeName EmployeeName { get; private set; } = null!;
-    public LicencePlate LicencePlate { get; private set; } = null!;
     public Date Date { get; private set; }
 
-    public Reservation(ReservationId id, EmployeeName employeeName, LicencePlate licencePlate, Date date)
+    protected Reservation(ReservationId id, Date date)
     {
         Id = id;
-        EmployeeName = employeeName;
-        LicencePlate = licencePlate;
         Date = date;
     }
-
-    public void ChangeLicencePlate(LicencePlate licencePlate)
-        => LicencePlate = licencePlate;
 }

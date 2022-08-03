@@ -16,22 +16,22 @@ public class ReservationsServiceTests
     public async Task GivenValidCommand_CreateReservation_ShouldAddReservation()
     {
         // Arrange
-        var command = new CreateReservation(Guid.Parse("00000000-0000-0000-0000-000000000001"),
+        var command = new ReserveParkingSpotForVehicle(Guid.Parse("00000000-0000-0000-0000-000000000001"),
             Guid.NewGuid(), "Joe Doe", "XYZ1234", _clock.Current().AddDays(1));
 
         // Act
-        await _reservationsService.CreateAsync(command);
+        await _reservationsService.ReserveForVehicleAsync(command);
     }
 
     [Fact]
     public async Task GivenInvalidParkingSpotId_CreateReservation_ShouldFail()
     {
         // Arrange
-        var command = new CreateReservation(Guid.Parse("00000000-0000-0000-0000-000000000010"),
+        var command = new ReserveParkingSpotForVehicle(Guid.Parse("00000000-0000-0000-0000-000000000010"),
             Guid.NewGuid(), "Joe Doe", "XYZ1234", DateTime.UtcNow.AddDays(1));
 
         // Act
-        var reservationId = await _reservationsService.CreateAsync(command);
+        var reservationId = await _reservationsService.ReserveForVehicleAsync(command);
 
         // Assert
         Assert.Null(reservationId);
@@ -41,12 +41,12 @@ public class ReservationsServiceTests
     public async Task GivenReservationForAlreadyTakenDate_CreateReservation_ShouldFail()
     {
         // Arrange
-        var command = new CreateReservation(Guid.Parse("00000000-0000-0000-0000-000000000005"),
+        var command = new ReserveParkingSpotForVehicle(Guid.Parse("00000000-0000-0000-0000-000000000005"),
             Guid.NewGuid(), "Joe Doe", "XYZ 1234", DateTime.UtcNow.AddDays(1));
-        await _reservationsService.CreateAsync(command);
+        await _reservationsService.ReserveForVehicleAsync(command);
 
         // Act
-        var reservationId = await _reservationsService.CreateAsync(command);
+        var reservationId = await _reservationsService.ReserveForVehicleAsync(command);
 
         // Assert
         Assert.Null(reservationId);
