@@ -5,5 +5,6 @@ public sealed record ReserveParkingSpotForVehicle(
     Guid ReservationId,
     string EmployeeName,
     string LicencePlate,
+    int Capacity,
     DateTime Date
 );

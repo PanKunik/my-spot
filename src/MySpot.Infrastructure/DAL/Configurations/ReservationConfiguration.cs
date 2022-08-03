@@ -13,6 +13,10 @@ internal sealed class ReservationConfiguration : IEntityTypeConfiguration<Reserv
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new ReservationId(x));
 
+        builder.Property(x => x.Capacity)
+            .IsRequired()
+            .HasConversion(x => x.Value, x => new(x));
+
         builder.Property(x => x.Date)
             .HasConversion(x => x.Value, x => new Date(x))
             .IsRequired();

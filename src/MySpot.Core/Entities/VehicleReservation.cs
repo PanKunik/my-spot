@@ -7,8 +7,9 @@ public class VehicleReservation : Reservation
     public EmployeeName EmployeeName { get; private set; }
     public LicencePlate LicencePlate { get; private set; }
 
-    public VehicleReservation(ReservationId id, EmployeeName employeeName, LicencePlate licencePlate, Date date)
-        : base(id, date)
+    public VehicleReservation(ReservationId id, EmployeeName employeeName,
+        LicencePlate licencePlate, Capacity capacity, Date date)
+        : base(id, capacity, date)
     {
         EmployeeName = employeeName;
         LicencePlate = licencePlate;
