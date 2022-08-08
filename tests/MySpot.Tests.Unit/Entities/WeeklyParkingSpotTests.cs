@@ -17,7 +17,7 @@ public class WeeklyParkingSpotTests
         var invalidDate = DateTime.Parse(dateString);
 
         // Arrange
-        var reservation = new Reservation(Guid.NewGuid(), "Joe Doe", "XYZ123", new Date(invalidDate));
+        var reservation = new VehicleReservation(Guid.NewGuid(), "Joe Doe", "XYZ123", 2, new Date(invalidDate));
 
         // Act
         var exception = Record.Exception(() => _weeklyParkingSpot.AddReservation(reservation, _now));
@@ -32,7 +32,7 @@ public class WeeklyParkingSpotTests
     {
         // Arrange
         var reservationDate = _now.AddDays(1);
-        var reservation = new Reservation(Guid.NewGuid(), "Joe Doe", "XYZ123", reservationDate);
+        var reservation = new VehicleReservation(Guid.NewGuid(), "Joe Doe", "XYZ123", 2, reservationDate);
         _weeklyParkingSpot.AddReservation(reservation, reservationDate);
 
         // Act
@@ -48,7 +48,7 @@ public class WeeklyParkingSpotTests
     {
         // Arrange
         var reservationDate = _now.AddDays(1);
-        var reservation = new Reservation(Guid.NewGuid(), "Joe Doe", "XYZ123", reservationDate);
+        var reservation = new VehicleReservation(Guid.NewGuid(), "Joe Doe", "XYZ123", 2, reservationDate);
 
         // Act
         _weeklyParkingSpot.AddReservation(reservation, reservationDate);
@@ -63,7 +63,7 @@ public class WeeklyParkingSpotTests
     {
         // Arrange
         var reservationId = new ReservationId(Guid.NewGuid());
-        var reservation = new Reservation(reservationId, "Joe Doe", "ABC 1234", new Date(_now.AddDays(1)));
+        var reservation = new VehicleReservation(reservationId, "Joe Doe", "ABC 1234", 2, new Date(_now.AddDays(1)));
         _weeklyParkingSpot.AddReservation(reservation, new Date(_now));
 
         // Act
@@ -79,7 +79,7 @@ public class WeeklyParkingSpotTests
         // Arrange
         var reservationId = new ReservationId(Guid.NewGuid());
         var newNotExisitngReservationId = new ReservationId(Guid.NewGuid());
-        var reservation = new Reservation(reservationId, "Joe Doe", "ABC 1234", new Date(_now.AddDays(1)));
+        var reservation = new VehicleReservation(reservationId, "Joe Doe", "ABC 1234", 2, new Date(_now.AddDays(1)));
         _weeklyParkingSpot.AddReservation(reservation, new Date(_now));
 
         // Act
@@ -97,7 +97,7 @@ public class WeeklyParkingSpotTests
     public WeeklyParkingSpotTests()
     {
         _now = new Date(DateTime.Parse("2022-06-17"));
-        _weeklyParkingSpot = new WeeklyParkingSpot(Guid.NewGuid(), new Week(_now), "P1");
+        _weeklyParkingSpot = WeeklyParkingSpot.Create(Guid.NewGuid(), new Week(_now), "P1");
     }
 
     #endregion

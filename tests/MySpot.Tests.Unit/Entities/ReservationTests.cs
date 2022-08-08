@@ -13,7 +13,7 @@ public class ReservationTests
     public void GivenValidLicencePlate_ChangeLicencePlate_ShouldPass(string licencePlate)
     {
         // Arrange
-        var reservation = new Reservation(new ReservationId(Guid.NewGuid()), "Joe Doe", "12345", new Date(DateTime.Now));
+        var reservation = new VehicleReservation(new ReservationId(Guid.NewGuid()), "Joe Doe", "12345", 2, new Date(DateTime.Now));
 
         // Act
         reservation.ChangeLicencePlate(licencePlate);

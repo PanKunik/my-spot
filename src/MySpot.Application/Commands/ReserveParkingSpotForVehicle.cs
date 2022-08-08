@@ -1,3 +1,5 @@
+using MySpot.Application.Abstractions;
+
 namespace MySpot.Application.Commands;
 
 public sealed record ReserveParkingSpotForVehicle(
@@ -7,4 +9,4 @@ public sealed record ReserveParkingSpotForVehicle(
     string LicencePlate,
     int Capacity,
     DateTime Date
-);
+) : ICommand;

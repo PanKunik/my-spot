@@ -4,6 +4,10 @@
     <ProjectReference Include="..\MySpot.Core\MySpot.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Scrutor" Version="4.2.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
