@@ -6,6 +6,7 @@ using MySpot.Application.Abstractions;
 using MySpot.Core.Abstractions;
 using MySpot.Infrastructure.DAL.Repositories;
 using MySpot.Infrastructure.Exceptions;
+using MySpot.Infrastructure.Logging;
 using MySpot.Infrastructure.Services;
 
 [assembly: InternalsVisibleTo("MySpot.Tests.Unit")]
@@ -15,12 +16,16 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddControllers();
+
         services.Configure<AppOptions>(configuration.GetRequiredSection("app"));
 
         services.AddSingleton<ExceptionMiddleware>();
         services.AddPostgres(configuration);
         // services.AddSingleton<IWeeklyParkingSpotRepository, InMemoryWeeklyParkingSpot>();
         services.AddSingleton<IClock, Clock>();
+
+        services.AddCustomLogging();
 
         var infrastructureAssembly = typeof(AppOptions).Assembly;
 

@@ -5,8 +5,8 @@ Content-Type: application/json
 
 {
     "parkingSpotId": "00000000-0000-0000-0000-000000000001",
-    "capacity": 1,
-    "date": "2022-08-04",
+    "capacity": 2,
+    "date": "2022-09-05",
     "employeeName": "Joe John",
     "licencePlate": "XYZ 1234"
 }
@@ -17,5 +17,5 @@ Content-Type: application/json
 
 {
     "parkingSpotId": "00000000-0000-0000-0000-000000000001",
-    "date": "2022-08-04"
+    "date": "2022-09-07"
 }

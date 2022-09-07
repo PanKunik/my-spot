@@ -19,7 +19,7 @@ internal static class Extensions
         services.AddHostedService<DatabaseInitializer>();
         services.AddScoped<IUnitOfWork, PostgresUnitOfWork>();
 
-        services.TryDecorate(typeof(ICommandHandler<>), typeof(UnitOfWorkCommandHandlerDecorator<>));
+        var b = services.TryDecorate(typeof(ICommandHandler<>), typeof(UnitOfWorkCommandHandlerDecorator<>));
 
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
