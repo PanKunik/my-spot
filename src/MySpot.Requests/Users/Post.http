@@ -1,0 +1,12 @@
+@url=http://localhost:5000
+
+POST {{url}}/users
+Content-Type: application/json
+
+{
+    "email": "test@test.pl",
+    "username": "test",
+    "fullname": "test test",
+    "password": "pwd123",
+    "role": "user"
+}

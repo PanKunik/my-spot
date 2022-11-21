@@ -4,9 +4,10 @@ POST {{url}}/reservations/vehicle
 Content-Type: application/json
 
 {
-    "parkingSpotId": "00000000-0000-0000-0000-000000000001",
+    "parkingSpotId": "00000000-0000-0000-0000-000000000003",
     "capacity": 2,
-    "date": "2022-09-05",
+    "date": "2022-11-22",
+    "userId": "c4fb6785-f60e-467a-aac9-fc24d803e501",
     "employeeName": "Joe John",
     "licencePlate": "XYZ 1234"
 }

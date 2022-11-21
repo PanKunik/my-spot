@@ -21,6 +21,5 @@ internal sealed class LoggingCommandHandlerDecorator<TCommand> : ICommandHandler
         _logger.LogInformation("Started handling a command: '{CommandName}'...", commandName);
         await _commandHandler.HandleAsync(command);
         _logger.LogInformation("Completed handling a command: '{CommandName}'.", commandName);
-
     }
 }

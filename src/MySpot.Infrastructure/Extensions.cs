@@ -7,6 +7,7 @@ using MySpot.Core.Abstractions;
 using MySpot.Infrastructure.DAL.Repositories;
 using MySpot.Infrastructure.Exceptions;
 using MySpot.Infrastructure.Logging;
+using MySpot.Infrastructure.Security;
 using MySpot.Infrastructure.Services;
 
 [assembly: InternalsVisibleTo("MySpot.Tests.Unit")]
@@ -26,6 +27,7 @@ public static class Extensions
         services.AddSingleton<IClock, Clock>();
 
         services.AddCustomLogging();
+        services.AddSecurity();
 
         var infrastructureAssembly = typeof(AppOptions).Assembly;
 

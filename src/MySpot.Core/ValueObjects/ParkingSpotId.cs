@@ -20,7 +20,7 @@ public record ParkingSpotId
 
     public static implicit operator Guid(ParkingSpotId date)
         => date.Value;
-    
+
     public static implicit operator ParkingSpotId(Guid value)
         => new(value);
 
