@@ -1512,3 +1512,146 @@ FROM "Users" AS u
 2022-12-08 13:38:37.876 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
 2022-12-08 13:38:37.878 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users - - - 200 - application/json;+charset=utf-8 22.3674ms
 2022-12-08 13:40:01.390 +01:00 [INF] Application is shutting down...
+2022-12-08 14:02:50.661 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 14:02:51.794 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 14:02:52.169 +01:00 [INF] Executed DbCommand (78ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:02:52.213 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:02:52.240 +01:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 14:02:52.270 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 14:02:52.578 +01:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 14:02:52.663 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 14:02:52.791 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 14:02:52.795 +01:00 [INF] Hosting environment: Development
+2022-12-08 14:02:52.796 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 14:03:00.245 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger - -
+2022-12-08 14:03:00.440 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger - - - 301 0 - 198.9346ms
+2022-12-08 14:03:00.453 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - -
+2022-12-08 14:03:00.524 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - - - 200 - text/html;charset=utf-8 71.0300ms
+2022-12-08 14:03:00.574 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-bundle.js - -
+2022-12-08 14:03:00.574 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-standalone-preset.js - -
+2022-12-08 14:03:00.580 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui.css - -
+2022-12-08 14:03:00.804 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2022-12-08 14:03:00.809 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui.css - - - 200 143632 text/css 229.3286ms
+2022-12-08 14:03:00.927 +01:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2022-12-08 14:03:00.931 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-standalone-preset.js - - - 200 337162 application/javascript 356.5629ms
+2022-12-08 14:03:01.028 +01:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2022-12-08 14:03:01.030 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-bundle.js - - - 200 1092889 application/javascript 456.0316ms
+2022-12-08 14:03:01.193 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/favicon-16x16.png - -
+2022-12-08 14:03:01.196 +01:00 [INF] Sending file. Request path: '/favicon-16x16.png'. Physical path: 'N/A'
+2022-12-08 14:03:01.203 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/favicon-16x16.png - - - 200 665 image/png 9.7378ms
+2022-12-08 14:03:01.227 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - -
+2022-12-08 14:03:01.335 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 108.7007ms
+2022-12-08 14:06:06.039 +01:00 [INF] Application is shutting down...
+2022-12-08 14:06:14.414 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 14:06:15.516 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 14:06:15.895 +01:00 [INF] Executed DbCommand (92ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:06:15.930 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:06:15.951 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 14:06:15.981 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 14:06:16.270 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 14:06:16.358 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 14:06:16.463 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 14:06:16.465 +01:00 [INF] Hosting environment: Development
+2022-12-08 14:06:16.467 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 14:06:28.359 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - -
+2022-12-08 14:06:28.480 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - - - 200 - text/html;charset=utf-8 122.3517ms
+2022-12-08 14:06:28.753 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - -
+2022-12-08 14:06:28.857 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 104.5393ms
+2022-12-08 14:08:03.041 +01:00 [INF] Application is shutting down...
+2022-12-08 14:12:18.361 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 14:12:20.215 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 14:12:20.684 +01:00 [INF] Executed DbCommand (106ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:12:20.763 +01:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:12:20.789 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 14:12:20.816 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 14:12:21.068 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 14:12:21.152 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 14:12:21.171 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 14:12:21.173 +01:00 [INF] Hosting environment: Development
+2022-12-08 14:12:21.176 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 14:12:30.934 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - -
+2022-12-08 14:12:31.046 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - - - 200 - text/html;charset=utf-8 116.3094ms
+2022-12-08 14:12:31.306 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - -
+2022-12-08 14:12:31.442 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 135.8668ms
+2022-12-08 14:12:42.620 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - -
+2022-12-08 14:12:42.637 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 16.8976ms
+2022-12-08 14:13:36.577 +01:00 [INF] Application is shutting down...
+2022-12-08 14:14:12.033 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 14:14:13.631 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 14:14:14.094 +01:00 [INF] Executed DbCommand (92ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:14:14.145 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:14:14.174 +01:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 14:14:14.226 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 14:14:14.519 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 14:14:14.600 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 14:14:14.612 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 14:14:14.626 +01:00 [INF] Hosting environment: Development
+2022-12-08 14:14:14.629 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 14:14:14.833 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - -
+2022-12-08 14:14:14.920 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - - - 404 0 - 90.8088ms
+2022-12-08 14:14:14.980 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/favicon.ico - -
+2022-12-08 14:14:14.989 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/favicon.ico - - - 404 0 - 7.7492ms
+2022-12-08 14:14:21.508 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - -
+2022-12-08 14:14:21.514 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - - - 404 0 - 6.1658ms
+2022-12-08 14:14:33.609 +01:00 [INF] Application is shutting down...
+2022-12-08 14:15:14.608 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 14:15:15.645 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 14:15:15.962 +01:00 [INF] Executed DbCommand (74ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:15:16.001 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 14:15:16.026 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 14:15:16.057 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 14:15:16.271 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 14:15:16.330 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 14:15:16.335 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 14:15:16.337 +01:00 [INF] Hosting environment: Development
+2022-12-08 14:15:16.338 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 14:15:18.703 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/docs - -
+2022-12-08 14:15:18.770 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/docs - - - 301 0 - 71.5919ms
+2022-12-08 14:15:18.778 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/docs/index.html - -
+2022-12-08 14:15:18.807 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/docs/index.html - - - 200 - text/html 29.0171ms
+2022-12-08 14:15:18.865 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/docs/redoc.standalone.js - -
+2022-12-08 14:15:18.902 +01:00 [INF] Sending file. Request path: '/redoc.standalone.js'. Physical path: 'N/A'
+2022-12-08 14:15:18.907 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/docs/redoc.standalone.js - - - 200 1035920 application/javascript 43.1400ms
+2022-12-08 14:15:19.118 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - -
+2022-12-08 14:15:19.228 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 110.0947ms
+2022-12-08 14:38:43.786 +01:00 [INF] Application is shutting down...
