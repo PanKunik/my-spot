@@ -544,3 +544,785 @@ ORDER BY w."Id"
 2022-11-21 11:40:56.876 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.ParkingSpotsController.Get (MySpot.Api)'
 2022-11-21 11:40:56.879 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/parking-spots - - - 200 - application/json;+charset=utf-8 28.0765ms
 2022-11-21 11:45:21.227 +01:00 [INF] Application is shutting down...
+2022-11-28 09:30:38.321 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-11-28 09:30:40.037 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-11-28 09:35:32.757 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-11-28 09:35:33.728 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-11-28 09:37:47.431 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-11-28 09:37:48.713 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-11-28 09:37:49.481 +01:00 [INF] Executed DbCommand (389ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE DATABASE myspot;
+2022-11-28 09:37:49.690 +01:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+2022-11-28 09:37:49.764 +01:00 [INF] Executed DbCommand (40ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-11-28 09:37:49.779 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-11-28 09:37:49.809 +01:00 [INF] Applying migration '20220629122210_Initial migration'.
+2022-11-28 09:37:49.860 +01:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "WeeklyParkingSpots" (
+    "Id" uuid NOT NULL,
+    "Week" timestamp with time zone NOT NULL,
+    "Name" text NOT NULL,
+    CONSTRAINT "PK_WeeklyParkingSpots" PRIMARY KEY ("Id")
+);
+2022-11-28 09:37:49.881 +01:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Reservations" (
+    "Id" uuid NOT NULL,
+    "EmployeeName" text NOT NULL,
+    "LicencePlate" text NOT NULL,
+    "Date" timestamp with time zone NOT NULL,
+    "WeeklyParkingSpotId" uuid NULL,
+    CONSTRAINT "PK_Reservations" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_Reservations_WeeklyParkingSpots_WeeklyParkingSpotId" FOREIGN KEY ("WeeklyParkingSpotId") REFERENCES "WeeklyParkingSpots" ("Id")
+);
+2022-11-28 09:37:49.900 +01:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Reservations_WeeklyParkingSpotId" ON "Reservations" ("WeeklyParkingSpotId");
+2022-11-28 09:37:49.905 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20220629122210_Initial migration', '6.0.6');
+2022-11-28 09:37:49.925 +01:00 [INF] Applying migration '20220803104952_Cleaning_Reservation'.
+2022-11-28 09:37:49.944 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Reservations" ALTER COLUMN "LicencePlate" DROP NOT NULL;
+2022-11-28 09:37:49.950 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Reservations" ALTER COLUMN "EmployeeName" DROP NOT NULL;
+2022-11-28 09:37:49.956 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Reservations" ADD "Type" text NOT NULL DEFAULT '';
+2022-11-28 09:37:49.962 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20220803104952_Cleaning_Reservation', '6.0.6');
+2022-11-28 09:37:49.971 +01:00 [INF] Applying migration '20220803123501_Capacity'.
+2022-11-28 09:37:49.980 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "WeeklyParkingSpots" ADD "Capacity" integer NOT NULL DEFAULT 0;
+2022-11-28 09:37:49.984 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Reservations" ADD "Capacity" integer NOT NULL DEFAULT 0;
+2022-11-28 09:37:49.990 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20220803123501_Capacity', '6.0.6');
+2022-11-28 09:37:49.998 +01:00 [INF] Applying migration '20221121101827_Adding Users entity'.
+2022-11-28 09:37:50.012 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Reservations" ADD "UserId" uuid NULL;
+2022-11-28 09:37:50.022 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Users" (
+    "UserId" uuid NOT NULL,
+    "Email" character varying(100) NOT NULL,
+    "Username" character varying(30) NOT NULL,
+    "Password" character varying(200) NOT NULL,
+    "FullName" character varying(100) NOT NULL,
+    "Role" character varying(30) NOT NULL,
+    "CreatedAt" timestamp without time zone NOT NULL,
+    CONSTRAINT "PK_Users" PRIMARY KEY ("UserId")
+);
+2022-11-28 09:37:50.033 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Reservations_UserId" ON "Reservations" ("UserId");
+2022-11-28 09:37:50.042 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "IX_Users_Email" ON "Users" ("Email");
+2022-11-28 09:37:50.052 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "IX_Users_Username" ON "Users" ("Username");
+2022-11-28 09:37:50.061 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Reservations" ADD CONSTRAINT "FK_Reservations_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("UserId") ON DELETE CASCADE;
+2022-11-28 09:37:50.066 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20221121101827_Adding Users entity', '6.0.6');
+2022-11-28 09:37:50.311 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-11-28 09:37:50.498 +01:00 [INF] Executed DbCommand (17ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Int32), @p2='?', @p3='?' (DbType = DateTimeOffset), @p4='?' (DbType = Guid), @p5='?' (DbType = Int32), @p6='?', @p7='?' (DbType = DateTimeOffset), @p8='?' (DbType = Guid), @p9='?' (DbType = Int32), @p10='?', @p11='?' (DbType = DateTimeOffset), @p12='?' (DbType = Guid), @p13='?' (DbType = Int32), @p14='?', @p15='?' (DbType = DateTimeOffset), @p16='?' (DbType = Guid), @p17='?' (DbType = Int32), @p18='?', @p19='?' (DbType = DateTimeOffset)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "WeeklyParkingSpots" ("Id", "Capacity", "Name", "Week")
+VALUES (@p0, @p1, @p2, @p3);
+INSERT INTO "WeeklyParkingSpots" ("Id", "Capacity", "Name", "Week")
+VALUES (@p4, @p5, @p6, @p7);
+INSERT INTO "WeeklyParkingSpots" ("Id", "Capacity", "Name", "Week")
+VALUES (@p8, @p9, @p10, @p11);
+INSERT INTO "WeeklyParkingSpots" ("Id", "Capacity", "Name", "Week")
+VALUES (@p12, @p13, @p14, @p15);
+INSERT INTO "WeeklyParkingSpots" ("Id", "Capacity", "Name", "Week")
+VALUES (@p16, @p17, @p18, @p19);
+2022-11-28 09:37:50.686 +01:00 [INF] Now listening on: http://localhost:5000
+2022-11-28 09:37:50.692 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-11-28 09:37:50.695 +01:00 [INF] Hosting environment: Development
+2022-11-28 09:37:50.697 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-11-28 09:47:11.274 +01:00 [INF] Application is shutting down...
+2022-11-28 09:47:24.761 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-11-28 09:47:25.729 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-11-28 09:47:26.039 +01:00 [INF] Executed DbCommand (72ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-11-28 09:47:26.081 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-11-28 09:47:26.103 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-11-28 09:47:26.131 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-11-28 09:47:26.327 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-11-28 09:47:26.376 +01:00 [INF] Now listening on: http://localhost:5000
+2022-11-28 09:47:26.381 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-11-28 09:47:26.382 +01:00 [INF] Hosting environment: Development
+2022-11-28 09:47:26.387 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-11-28 09:47:58.865 +01:00 [INF] Application is shutting down...
+2022-12-08 12:00:32.768 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:00:35.358 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:02:07.812 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:02:09.016 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:02:09.464 +01:00 [INF] Executed DbCommand (80ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:02:09.521 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:02:09.544 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:02:09.580 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:02:09.825 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:02:09.934 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:02:09.939 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:02:09.941 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:02:09.943 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:02:35.775 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:02:36.429 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:02:36.449 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:02:36.466 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 6.1375ms
+2022-12-08 12:02:36.471 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:02:36.540 +01:00 [ERR] Unable to resolve service for type 'MySpot.Application.Abstractions.IQueryHandler`2[MySpot.Application.Queries.GetUser,MySpot.Application.DTO.UserDTO]' while attempting to activate 'MySpot.Api.Controllers.UsersController'.
+System.InvalidOperationException: Unable to resolve service for type 'MySpot.Application.Abstractions.IQueryHandler`2[MySpot.Application.Queries.GetUser,MySpot.Application.DTO.UserDTO]' while attempting to activate 'MySpot.Api.Controllers.UsersController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method15(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at MySpot.Infrastructure.Exceptions.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in D:\Repozytoria\my-spot\src\MySpot.Infrastructure\Exceptions\ExceptionMiddleware.cs:line 21
+2022-12-08 12:02:36.750 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 500 - application/json;+charset=utf-8 979.2898ms
+2022-12-08 12:08:07.046 +01:00 [INF] Application is shutting down...
+2022-12-08 12:08:16.487 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:08:17.543 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:08:17.857 +01:00 [INF] Executed DbCommand (70ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:08:17.896 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:08:17.923 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:08:17.957 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:08:18.182 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:08:18.237 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:08:18.241 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:08:18.242 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:08:18.244 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:08:22.964 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:08:23.035 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:08:23.048 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:08:23.395 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:08:23.422 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 366.9007ms
+2022-12-08 12:08:23.428 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:08:23.432 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 473.4014ms
+2022-12-08 12:08:32.106 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:08:32.112 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:08:32.114 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:09:41.345 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:09:41.371 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 69251.8681ms
+2022-12-08 12:09:41.376 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:09:41.379 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 69272.7580ms
+2022-12-08 12:10:34.450 +01:00 [INF] Application is shutting down...
+2022-12-08 12:10:43.291 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:10:44.354 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:10:44.663 +01:00 [INF] Executed DbCommand (75ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:10:44.696 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:10:44.717 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:10:44.744 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:10:44.941 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:10:44.995 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:10:45.000 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:10:45.004 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:10:45.007 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:11:40.046 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:11:40.109 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:11:40.122 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:11:40.225 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:11:40.250 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 117.3685ms
+2022-12-08 12:11:40.253 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:11:40.257 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 213.9725ms
+2022-12-08 12:11:44.504 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/secret - -
+2022-12-08 12:11:44.511 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/secret - - - 404 0 - 6.3445ms
+2022-12-08 12:11:57.027 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:11:57.035 +01:00 [ERR] Endpoint MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) contains authorization metadata, but a middleware was not found that supports authorization.
+Configure your application startup by adding app.UseAuthorization() in the application startup code. If there are calls to app.UseRouting() and app.UseEndpoints(...), the call to app.UseAuthorization() must go between them.
+System.InvalidOperationException: Endpoint MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) contains authorization metadata, but a middleware was not found that supports authorization.
+Configure your application startup by adding app.UseAuthorization() in the application startup code. If there are calls to app.UseRouting() and app.UseEndpoints(...), the call to app.UseAuthorization() must go between them.
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.ThrowMissingAuthMiddlewareException(Endpoint endpoint)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at MySpot.Infrastructure.Exceptions.ExceptionMiddleware.InvokeAsync(HttpContext context, RequestDelegate next) in D:\Repozytoria\my-spot\src\MySpot.Infrastructure\Exceptions\ExceptionMiddleware.cs:line 21
+2022-12-08 12:11:57.163 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 500 - application/json;+charset=utf-8 136.1430ms
+2022-12-08 12:12:54.142 +01:00 [INF] Application is shutting down...
+2022-12-08 12:13:18.601 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:13:19.727 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:13:20.058 +01:00 [INF] Executed DbCommand (78ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:13:20.094 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:13:20.116 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:13:20.143 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:13:20.346 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:13:20.394 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:13:20.398 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:13:20.400 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:13:20.402 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:13:20.958 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:13:21.024 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:13:21.036 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:13:21.143 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:13:21.167 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 119.6282ms
+2022-12-08 12:13:21.170 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:13:21.183 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 220.4029ms
+2022-12-08 12:13:27.625 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:13:27.642 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:13:27.651 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:13:27.654 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 28.1409ms
+2022-12-08 12:13:32.033 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:13:32.039 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:13:32.042 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:13:32.045 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 11.7730ms
+2022-12-08 12:14:16.142 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:14:16.153 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:14:16.157 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:14:16.159 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 16.8417ms
+2022-12-08 12:14:37.148 +01:00 [INF] Application is shutting down...
+2022-12-08 12:14:46.895 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:14:48.034 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:14:48.359 +01:00 [INF] Executed DbCommand (80ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:14:48.397 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:14:48.416 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:14:48.444 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:14:48.640 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:14:48.694 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:14:48.699 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:14:48.700 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:14:48.702 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:14:49.720 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:14:49.754 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:14:49.789 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:14:49.797 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 79.8568ms
+2022-12-08 12:14:52.436 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:14:52.446 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:14:52.461 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:14:52.575 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:14:52.596 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 124.8535ms
+2022-12-08 12:14:52.599 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:14:52.603 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 166.2753ms
+2022-12-08 12:15:03.634 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:15:03.639 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:15:03.643 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:15:03.646 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 12.1851ms
+2022-12-08 12:15:19.820 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:15:19.824 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:15:19.993 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:15:19.997 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 177.1049ms
+2022-12-08 12:15:23.989 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:15:23.996 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:15:24.001 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:15:24.004 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 14.8667ms
+2022-12-08 12:15:27.388 +01:00 [INF] Application is shutting down...
+2022-12-08 12:15:36.253 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:15:37.256 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:15:37.576 +01:00 [INF] Executed DbCommand (80ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:15:37.611 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:15:37.634 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:15:37.660 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:15:37.860 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:15:37.911 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:15:37.917 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:15:37.918 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:15:37.920 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:15:38.083 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:15:38.272 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:15:38.283 +01:00 [INF] Route matched with {action = "GetSecret", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetSecret() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:15:38.295 +01:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2022-12-08 12:15:38.307 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) in 14.7385ms
+2022-12-08 12:15:38.311 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:15:38.316 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 200 - text/plain;+charset=utf-8 236.0623ms
+2022-12-08 12:19:24.573 +01:00 [INF] Application is shutting down...
+2022-12-08 12:19:35.482 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:19:36.557 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:19:36.873 +01:00 [INF] Executed DbCommand (72ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:19:36.912 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:19:36.934 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:19:36.960 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:19:37.164 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:19:37.213 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:19:37.218 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:19:37.219 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:19:37.220 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:19:46.401 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:19:46.515 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:19:46.526 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:19:49.938 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:19:49.982 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 3445.611ms
+2022-12-08 12:19:49.984 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:19:49.994 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 3593.9057ms
+2022-12-08 12:20:01.899 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:20:02.019 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:20:02.025 +01:00 [INF] Route matched with {action = "GetSecret", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetSecret() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.835 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:24:20.840 +01:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2022-12-08 12:24:20.837 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.845 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) in 258817.4793ms
+2022-12-08 12:24:20.842 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.849 +01:00 [INF] Bearer was not authenticated. Failure message: No SecurityTokenValidator available for token.
+2022-12-08 12:24:20.845 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.847 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:20.840 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.849 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.851 +01:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2022-12-08 12:24:20.852 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.855 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 200 - text/plain;+charset=utf-8 258955.4635ms
+2022-12-08 12:24:20.857 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.859 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.868 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.869 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.869 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.873 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.874 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.874 +01:00 [INF] AuthenticationScheme: Bearer was challenged.
+2022-12-08 12:24:20.878 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.880 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 15.8225ms
+2022-12-08 12:24:20.882 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 9.9225ms
+2022-12-08 12:24:20.884 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.886 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 401 0 - 51.6101ms
+2022-12-08 12:24:20.888 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 10.4987ms
+2022-12-08 12:24:20.899 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.891 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.895 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.900 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.902 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.904 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 5.3981ms
+2022-12-08 12:24:20.906 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 72.6658ms
+2022-12-08 12:24:20.908 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 65.6126ms
+2022-12-08 12:24:20.912 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.909 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.914 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.910 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 70.0860ms
+2022-12-08 12:24:20.915 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.916 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 48.3561ms
+2022-12-08 12:24:20.917 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.918 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.920 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.919 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.922 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.924 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.926 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.927 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.929 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.930 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.933 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 8.5219ms
+2022-12-08 12:24:20.936 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.939 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.940 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.942 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.944 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.946 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 9.705ms
+2022-12-08 12:24:20.947 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 8.6276ms
+2022-12-08 12:24:20.950 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.951 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.952 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 52.0755ms
+2022-12-08 12:24:20.954 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.959 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 7.694ms
+2022-12-08 12:24:20.955 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.957 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 7.443ms
+2022-12-08 12:24:20.960 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:20.961 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 47.2590ms
+2022-12-08 12:24:20.963 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.967 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.964 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 48.7056ms
+2022-12-08 12:24:20.966 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.971 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 49.2282ms
+2022-12-08 12:24:20.972 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:20.976 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 56.9236ms
+2022-12-08 12:24:20.980 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:20.983 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 3.3895ms
+2022-12-08 12:24:20.985 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:20.986 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 26.0921ms
+2022-12-08 12:24:28.511 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:24:28.514 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:28.517 +01:00 [INF] Route matched with {action = "GetJwt", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.JwtDto] GetJwt() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:28.521 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:24:28.524 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api) in 3.0423ms
+2022-12-08 12:24:28.526 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetJwt (MySpot.Api)'
+2022-12-08 12:24:28.529 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 200 - application/json;+charset=utf-8 17.9844ms
+2022-12-08 12:24:31.415 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:24:31.419 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:31.423 +01:00 [INF] Route matched with {action = "GetSecret", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetSecret() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:31.428 +01:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2022-12-08 12:24:31.435 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) in 7.8188ms
+2022-12-08 12:24:31.439 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:31.443 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 200 - text/plain;+charset=utf-8 28.3127ms
+2022-12-08 12:24:34.242 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:24:34.245 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.256 +01:00 [INF] Route matched with {action = "GetSecret", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetSecret() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:34.261 +01:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2022-12-08 12:24:34.267 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) in 6.5164ms
+2022-12-08 12:24:34.270 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.274 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 200 - text/plain;+charset=utf-8 31.7905ms
+2022-12-08 12:24:34.570 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:24:34.574 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.577 +01:00 [INF] Route matched with {action = "GetSecret", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetSecret() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:34.582 +01:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2022-12-08 12:24:34.584 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) in 1.9941ms
+2022-12-08 12:24:34.587 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.591 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 200 - text/plain;+charset=utf-8 20.4651ms
+2022-12-08 12:24:34.731 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:24:34.736 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.739 +01:00 [INF] Route matched with {action = "GetSecret", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetSecret() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:34.742 +01:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2022-12-08 12:24:34.744 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) in 1.8111ms
+2022-12-08 12:24:34.748 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.750 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 200 - text/plain;+charset=utf-8 19.2543ms
+2022-12-08 12:24:34.873 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/secret - -
+2022-12-08 12:24:34.875 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.877 +01:00 [INF] Route matched with {action = "GetSecret", controller = "Users"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetSecret() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:24:34.884 +01:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2022-12-08 12:24:34.886 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api) in 1.9546ms
+2022-12-08 12:24:34.888 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.GetSecret (MySpot.Api)'
+2022-12-08 12:24:34.890 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/secret - - - 200 - text/plain;+charset=utf-8 17.3955ms
+2022-12-08 12:25:42.989 +01:00 [INF] Application is shutting down...
+2022-12-08 12:36:10.416 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:36:11.540 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:36:11.858 +01:00 [INF] Executed DbCommand (75ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:36:11.894 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:36:11.918 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:36:11.949 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:36:12.197 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:36:12.247 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:36:12.251 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:36:12.254 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:36:12.257 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:36:24.824 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users application/json 136
+2022-12-08 12:36:24.935 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:36:24.968 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignUp) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:36:28.964 +01:00 [INF] Started handling a command: 'sign_up'...
+2022-12-08 12:36:28.970 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:36:31.190 +01:00 [INF] Executed DbCommand (14ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:36:31.208 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Username" = @__p_0
+LIMIT 2
+2022-12-08 12:36:31.443 +01:00 [INF] Executed DbCommand (26ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?', @p3='?', @p4='?', @p5='?', @p6='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Users" ("UserId", "CreatedAt", "Email", "FullName", "Password", "Role", "Username")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+2022-12-08 12:36:31.485 +01:00 [INF] Completed handling a command: 'sign_up'.
+2022-12-08 12:36:31.498 +01:00 [INF] Executing CreatedAtActionResult, writing value of type 'null'.
+2022-12-08 12:36:31.538 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 6560.7351ms
+2022-12-08 12:36:31.543 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:36:31.552 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users application/json 136 - 201 0 - 6730.9470ms
+2022-12-08 12:37:28.902 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:37:28.909 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:37:28.916 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:37:28.932 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:37:28.992 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:37:29.012 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:47:02.586 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:47:03.635 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:47:04.017 +01:00 [INF] Executed DbCommand (106ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:47:04.055 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:47:04.075 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:47:04.102 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:47:04.338 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:47:04.407 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:47:04.411 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:47:04.412 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:47:04.414 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:48:10.765 +01:00 [INF] Application is shutting down...
+2022-12-08 12:48:19.679 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:48:20.759 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:48:21.080 +01:00 [INF] Executed DbCommand (75ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:48:21.112 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:48:21.134 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:48:21.160 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:48:21.352 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:48:21.403 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:48:21.410 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:48:21.412 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:48:21.414 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:48:42.331 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:48:42.393 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:48:42.420 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:48:42.476 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:48:42.482 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:48:42.601 +01:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:48:42.784 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:48:42.794 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:48:42.809 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 377.1773ms
+2022-12-08 12:48:42.813 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:48:42.819 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 491.2183ms
+2022-12-08 12:48:49.285 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:48:49.291 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 404 0 - 6.1859ms
+2022-12-08 12:49:00.664 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:49:00.691 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:00.725 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:49:00.733 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:49:00.815 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:49:00.829 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:49:00.842 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:49:00.844 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:49:00.846 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 117.131ms
+2022-12-08 12:49:00.847 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:00.849 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 184.8321ms
+2022-12-08 12:49:01.500 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:49:01.503 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:01.504 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:49:01.513 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:49:01.519 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:49:01.530 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:49:01.546 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:49:01.549 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:49:01.553 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 43.187ms
+2022-12-08 12:49:01.555 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:01.558 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 57.1905ms
+2022-12-08 12:49:02.204 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:49:02.207 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:02.210 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:49:02.214 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:49:02.217 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:49:02.222 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:49:02.237 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:49:02.241 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:49:02.243 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 29.415ms
+2022-12-08 12:49:02.245 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:02.247 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 42.3974ms
+2022-12-08 12:49:02.776 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:49:02.781 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:02.784 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:49:02.796 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:49:02.801 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:49:02.809 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:49:02.823 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:49:02.825 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:49:02.827 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 38.7137ms
+2022-12-08 12:49:02.830 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:02.833 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 57.0329ms
+2022-12-08 12:49:03.200 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:49:03.203 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:03.206 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:49:03.213 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:49:03.218 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:49:03.223 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:49:03.237 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:49:03.240 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:49:03.242 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 29.7607ms
+2022-12-08 12:49:03.244 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:49:03.246 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 45.4137ms
+2022-12-08 12:51:20.427 +01:00 [INF] Application is shutting down...
+2022-12-08 12:51:52.975 +01:00 [INF] User profile is available. Using 'C:\Users\Kunik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-12-08 12:51:53.995 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:51:54.313 +01:00 [INF] Executed DbCommand (74ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:51:54.354 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE c.relname='__EFMigrationsHistory');
+2022-12-08 12:51:54.374 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2022-12-08 12:51:54.405 +01:00 [INF] No migrations were applied. The database is already up to date.
+2022-12-08 12:51:54.616 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM "WeeklyParkingSpots" AS w)
+2022-12-08 12:51:54.664 +01:00 [INF] Now listening on: http://localhost:5000
+2022-12-08 12:51:54.674 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-12-08 12:51:54.675 +01:00 [INF] Hosting environment: Development
+2022-12-08 12:51:54.677 +01:00 [INF] Content root path: D:\Repozytoria\my-spot\src\MySpot.Api\
+2022-12-08 12:51:59.368 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/me - -
+2022-12-08 12:51:59.429 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:51:59.445 +01:00 [INF] Route matched with {action = "Get", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.UserDTO]] Get() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:51:59.464 +01:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2022-12-08 12:51:59.489 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Get (MySpot.Api) in 32.5202ms
+2022-12-08 12:51:59.493 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:51:59.499 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/me - - - 404 - application/problem+json;+charset=utf-8 133.8606ms
+2022-12-08 12:52:10.033 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/me - -
+2022-12-08 12:52:10.046 +01:00 [INF] Bearer was not authenticated. Failure message: No SecurityTokenValidator available for token.
+2022-12-08 12:52:10.049 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:52:10.051 +01:00 [INF] Route matched with {action = "Get", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.UserDTO]] Get() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:52:10.060 +01:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2022-12-08 12:52:10.064 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Get (MySpot.Api) in 7.0742ms
+2022-12-08 12:52:10.068 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:52:10.071 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/me - - - 404 - application/problem+json;+charset=utf-8 37.8586ms
+2022-12-08 12:52:15.004 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/jwt - -
+2022-12-08 12:52:15.009 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/jwt - - - 404 0 - 4.2587ms
+2022-12-08 12:52:17.972 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:52:17.975 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:52:17.993 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:52:18.042 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:52:18.052 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:52:18.176 +01:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:52:18.365 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:52:18.369 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:52:18.372 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 372.3716ms
+2022-12-08 12:52:18.376 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:52:18.381 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 409.2764ms
+2022-12-08 12:52:24.991 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/me - -
+2022-12-08 12:52:24.994 +01:00 [INF] Bearer was not authenticated. Failure message: No SecurityTokenValidator available for token.
+2022-12-08 12:52:25.000 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:52:25.004 +01:00 [INF] Route matched with {action = "Get", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.UserDTO]] Get() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:52:25.010 +01:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2022-12-08 12:52:25.017 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Get (MySpot.Api) in 7.0153ms
+2022-12-08 12:52:25.021 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:52:25.025 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/me - - - 404 - application/problem+json;+charset=utf-8 33.7629ms
+2022-12-08 12:52:42.011 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60
+2022-12-08 12:52:42.013 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:52:42.015 +01:00 [INF] Route matched with {action = "Post", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Post(MySpot.Application.Commands.SignIn) on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:52:42.020 +01:00 [INF] Started handling a command: 'sign_in'...
+2022-12-08 12:52:42.078 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:52:42.094 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."Email" = @__p_0
+LIMIT 2
+2022-12-08 12:52:42.111 +01:00 [INF] Completed handling a command: 'sign_in'.
+2022-12-08 12:52:42.115 +01:00 [INF] Executing OkObjectResult, writing value of type 'MySpot.Application.DTO.JwtDto'.
+2022-12-08 12:52:42.118 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Post (MySpot.Api) in 99.0167ms
+2022-12-08 12:52:42.120 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Post (MySpot.Api)'
+2022-12-08 12:52:42.121 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/users/sign-in application/json 60 - 200 - application/json;+charset=utf-8 110.7742ms
+2022-12-08 12:52:43.704 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/users/me - -
+2022-12-08 12:52:43.774 +01:00 [INF] Executing endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:52:43.779 +01:00 [INF] Route matched with {action = "Get", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MySpot.Application.DTO.UserDTO]] Get() on controller MySpot.Api.Controllers.UsersController (MySpot.Api).
+2022-12-08 12:52:43.785 +01:00 [INF] Entity Framework Core 6.0.6 initialized 'MySpotDbContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:6.0.5+9d79af6e2586d5d28da253ac075706a5575a1743' with options: None
+2022-12-08 12:52:43.852 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FullName", u."Password", u."Role", u."Username"
+FROM "Users" AS u
+WHERE u."UserId" = @__p_0
+LIMIT 1
+2022-12-08 12:52:43.858 +01:00 [INF] Executing ObjectResult, writing value of type 'MySpot.Application.DTO.UserDTO'.
+2022-12-08 12:52:43.863 +01:00 [INF] Executed action MySpot.Api.Controllers.UsersController.Get (MySpot.Api) in 80.6982ms
+2022-12-08 12:52:43.866 +01:00 [INF] Executed endpoint 'MySpot.Api.Controllers.UsersController.Get (MySpot.Api)'
+2022-12-08 12:52:43.869 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/users/me - - - 200 - application/json;+charset=utf-8 164.5259ms
+2022-12-08 12:53:24.212 +01:00 [INF] Application is shutting down...

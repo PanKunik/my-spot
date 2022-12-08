@@ -9,7 +9,6 @@ builder.Services
        .AddApplication()
        .AddInfrastructure(builder.Configuration);
 
-
 builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
        loggerConfiguration.WriteTo
@@ -22,5 +21,4 @@ builder.Host.UseSerilog((context, loggerConfiguration) =>
 
 var app = builder.Build();
 app.UseInfrastructure();
-app.MapControllers();
 app.Run();

@@ -10,3 +10,23 @@ Content-Type: application/json
     "password": "pwd123",
     "role": "user"
 }
+
+###
+
+# @name sign_in
+POST {{url}}/users/sign-in
+Content-Type: application/json
+
+{
+    "email": "test@test.pl",
+    "password": "pwd123"
+}
+
+###
+
+@accessToken={{sign_in.response.body.$.accessToken}}
+
+### 
+
+GET {{url}}/users/me
+Authorization: Bearer {{accessToken}}
