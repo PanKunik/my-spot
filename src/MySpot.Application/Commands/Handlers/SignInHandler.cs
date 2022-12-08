@@ -34,7 +34,7 @@ internal sealed class SignInHandler : ICommandHandler<SignIn>
             throw new InvalidCastException();
         }
 
-        var jwt = _authenticator.CreateToken(user.UserId);
+        var jwt = _authenticator.CreateToken(user.UserId, user.Role);
         _tokenStorage.Set(jwt);
     }
 }

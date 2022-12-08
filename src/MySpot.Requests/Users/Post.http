@@ -1,14 +1,19 @@
 @url=http://localhost:5000
 
+GET {{url}}/users
+Authorization: Bearer {{accessToken}}
+
+###
+
 POST {{url}}/users
 Content-Type: application/json
 
 {
-    "email": "test@test.pl",
-    "username": "test",
+    "email": "admin@test.pl",
+    "username": "admin",
     "fullname": "test test",
     "password": "pwd123",
-    "role": "user"
+    "role": "admin"
 }
 
 ###
@@ -18,7 +23,7 @@ POST {{url}}/users/sign-in
 Content-Type: application/json
 
 {
-    "email": "test@test.pl",
+    "email": "admin@test.pl",
     "password": "pwd123"
 }
 

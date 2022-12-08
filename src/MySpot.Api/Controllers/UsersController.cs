@@ -32,6 +32,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{userId:guid}")]
+    [Authorize(Policy = "is-admin")]
     public async Task<ActionResult<UserDTO>> Get(Guid userId)
     {
         var user = await _getUserHandler.HandleAsync(new GetUser { UserId = userId });
@@ -51,11 +52,15 @@ public class UsersController : ControllerBase
             return NotFound();
         }
 
+        var isInUserRole = User.IsInRole("user");
+        var isInAdminRole = User.IsInRole("admin");
+
         var userId = Guid.Parse(User.Identity?.Name);
         return await _getUserHandler.HandleAsync(new GetUser { UserId = userId });
     }
 
     [HttpGet]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<IEnumerable<UserDTO>>> Get([FromQuery] GetUsers query)
         => Ok(await _getUsersHandler.HandleAsync(query));
 

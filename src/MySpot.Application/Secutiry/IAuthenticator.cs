@@ -4,5 +4,5 @@ namespace MySpot.Application.Secutiry;
 
 public interface IAuthenticator
 {
-    JwtDto CreateToken(Guid userId);
+    JwtDto CreateToken(Guid userId, string role);
 }
