@@ -2,9 +2,11 @@ using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MySpot.Application.Commands;
 using MySpot.Application.DTO;
 using MySpot.Core.Entities;
+using MySpot.Core.Repositories;
 using MySpot.Core.ValueObjects;
 using MySpot.Infrastructure.Security;
 using Shouldly;
@@ -14,10 +16,17 @@ namespace MySpot.Tests.Integration.Controllers;
 public class UserControllerTests : ControllerTests, IDisposable
 {
     private readonly TestDatabase _database;
+    private IUserRepository _repository;
 
     public UserControllerTests(OptionsProvider optionsProvider) : base(optionsProvider)
     {
         _database = new TestDatabase();
+    }
+
+    protected override void ConfigureServices(IServiceCollection services)
+    {
+        _repository = new TestUserRepository();
+        services.AddSingleton<IUserRepository>(_repository);
     }
 
     [Fact]
@@ -61,9 +70,10 @@ public class UserControllerTests : ControllerTests, IDisposable
             DateTime.Now
         );
 
-        await _database.Context.Database.MigrateAsync();
-        await _database.Context.Users.AddAsync(user);
-        await _database.Context.SaveChangesAsync();
+        // await _database.Context.Database.MigrateAsync();
+        // await _database.Context.Users.AddAsync(user);
+        // await _database.Context.SaveChangesAsync();
+        await _repository.AddAsync(user);
 
         var signIn = new SignIn(email, password);
 

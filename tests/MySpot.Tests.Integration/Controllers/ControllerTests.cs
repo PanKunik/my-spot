@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MySpot.Application.DTO;
 using MySpot.Application.Secutiry;
@@ -27,7 +28,12 @@ public abstract class ControllerTests : IClassFixture<OptionsProvider>
             new OptionsWrapper<AuthOptions>(authOptions),
             new Clock()
         );
-        var app = new MySpotTestApp();
+        var app = new MySpotTestApp(ConfigureServices);
         Client = app.Client;
+    }
+
+    protected virtual void ConfigureServices(IServiceCollection services)
+    {
+        
     }
 }
