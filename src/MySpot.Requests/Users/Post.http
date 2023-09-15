@@ -1,4 +1,5 @@
 @url=http://localhost:5000
+@userId = 5e4f585e-5910-4676-96ad-1774ac3ba98a
 
 GET {{url}}/users
 Authorization: Bearer {{accessToken}}
@@ -35,3 +36,20 @@ Content-Type: application/json
 
 GET {{url}}/users/me
 Authorization: Bearer {{accessToken}}
+
+###
+
+GET {{url}}/api/users/{{userId}}
+
+###
+
+POST {{url}}/api/users
+Content-Type: application/json
+
+{
+    "email": "admin2@test.pl",
+    "username": "admin2",
+    "fullname": "test test",
+    "password": "pwd123",
+    "role": "admin"
+}
