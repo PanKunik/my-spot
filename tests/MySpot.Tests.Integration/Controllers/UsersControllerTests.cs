@@ -76,6 +76,39 @@ public class UserControllerTests : ControllerTests, IDisposable
         jwt.AccessToken.ShouldNotBeNullOrWhiteSpace();
     }
 
+    [Fact]
+    public async Task Me_WhenCalledForAuthorizedUser_ShouldReturn200OkStatusCodeAndUserData()
+    {
+        // Arrange
+        var passwordManager = new PasswordManager(
+            new PasswordHasher<User>()
+        );
+        var password = "secretpassword";
+        var email = "test-user@myspot.io";
+        var user = new User(
+            new UserId(Guid.NewGuid()),
+            new Email(email),
+            new Username("test-user"),
+            passwordManager.Secure(password),
+            new FullName("Test User"),
+            Role.User(),
+            DateTime.Now
+        );
+
+        await _database.Context.Database.MigrateAsync();
+        await _database.Context.Users.AddAsync(user);
+        await _database.Context.SaveChangesAsync();
+
+        Authorize(user.UserId, user.Role);
+
+        // Act
+        var userDto = await Client.GetFromJsonAsync<UserDTO>("users/me");
+
+        // Assert
+        userDto.ShouldNotBeNull();
+        userDto.Id.ShouldBe(user.UserId.Value);
+    }
+
     public void Dispose()
     {
         _database.Dispose();
