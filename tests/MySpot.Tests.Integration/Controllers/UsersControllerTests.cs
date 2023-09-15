@@ -23,11 +23,12 @@ public class UserControllerTests : ControllerTests, IDisposable
         _database = new TestDatabase();
     }
 
-    protected override void ConfigureServices(IServiceCollection services)
-    {
-        _repository = new TestUserRepository();
-        services.AddSingleton<IUserRepository>(_repository);
-    }
+    // To use in-memory repositroy uncomment this override
+    // protected override void ConfigureServices(IServiceCollection services)
+    // {
+    //     _repository = new TestUserRepository();
+    //     services.AddSingleton<IUserRepository>(_repository);
+    // }
 
     [Fact]
     public async Task SignUp_WhenInvokedWithValidCommand_ShouldReturn201CreatedStatusCode()
@@ -70,10 +71,10 @@ public class UserControllerTests : ControllerTests, IDisposable
             DateTime.Now
         );
 
-        // await _database.Context.Database.MigrateAsync();
-        // await _database.Context.Users.AddAsync(user);
-        // await _database.Context.SaveChangesAsync();
-        await _repository.AddAsync(user);
+        await _database.Context.Database.MigrateAsync();
+        await _database.Context.Users.AddAsync(user);
+        await _database.Context.SaveChangesAsync();
+        //await _repository.AddAsync(user);
 
         var signIn = new SignIn(email, password);
 
