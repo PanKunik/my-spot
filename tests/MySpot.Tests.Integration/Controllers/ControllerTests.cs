@@ -8,6 +8,7 @@ using MySpot.Infrastructure.Services;
 
 namespace MySpot.Tests.Integration.Controllers;
 
+[Collection("api")]
 public abstract class ControllerTests : IClassFixture<OptionsProvider>
 {
     private readonly IAuthenticator _authenticator;
