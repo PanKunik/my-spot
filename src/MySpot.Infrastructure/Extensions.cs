@@ -13,6 +13,7 @@ using MySpot.Infrastructure.Security;
 using MySpot.Infrastructure.Services;
 
 [assembly: InternalsVisibleTo("MySpot.Tests.Unit")]
+[assembly: InternalsVisibleTo("MySpot.Tests.Integration")]
 namespace MySpot.Infrastructure;
 
 public static class Extensions
